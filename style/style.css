@@ -143,4 +143,94 @@ img {
 
 * {
   font-family: "Noto Sans HK", serif;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #5D689A;
+}
+
+.config-container {
+  width: 415px;
+  padding: 20px 25px;
+  background-color: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.0862745098);
+  text-align: center;
+}
+.config-container .config-title {
+  color: #EE9B95;
+  text-indent: 5px;
+  letter-spacing: 5px;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+.config-container .config-option {
+  margin: 25px 0 30px;
+}
+.config-container .start-quiz-btn {
+  cursor: pointer;
+  color: #FFF;
+  letter-spacing: 10px;
+  text-indent: 10px;
+  font-size: 0.985rem;
+  font-weight: 500;
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px 20px;
+  background-color: #EE9B95;
+  border: none;
+}
+
+.config-option .option-title {
+  color: #444;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.config-option .category-options {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.config-option button {
+  cursor: pointer;
+  padding: 12px;
+  font-size: 0.938rem;
+  font-weight: 500;
+  color: #444;
+  background-color: #FFF;
+  border-radius: 8px;
+  border: 1px solid #AAA;
+  transition: all 0.3s ease-in-out;
+}
+.config-option button:hover {
+  border: 1px solid #EE9B95;
+  background-color: rgba(238, 155, 149, 0.1607843137);
+}
+.config-option button.active {
+  color: #EE9B95;
+  border: 1px solid #EE9B95;
+  background-color: rgba(238, 155, 149, 0.1607843137);
+}
+
+.config-option .question-options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 30px;
 }/*# sourceMappingURL=style.css.map */
