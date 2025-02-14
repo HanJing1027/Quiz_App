@@ -237,7 +237,6 @@ body {
 }
 
 .quiz-container {
-  display: none;
   width: 480px;
   background-color: #FFF;
   border-radius: 8px;
@@ -347,4 +346,39 @@ body {
 .quiz-footer .next-question-btn i {
   margin-top: 3px;
   font-size: 1.25rem;
+}
+
+.result-container {
+  display: none;
+  background-color: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.0862745098);
+  text-align: center;
+  padding: 20px 40px 40px;
+  width: 410px;
+}
+.result-container .result-img {
+  width: 220px;
+}
+.result-container .result-title {
+  color: #444;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 30px;
+}
+.result-container .result-message {
+  color: #444;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-top: 20px;
+}
+.result-container .try-again-btn {
+  cursor: pointer;
+  color: #FFF;
+  font-size: 1rem;
+  padding: 8px 20px;
+  border-radius: 4px;
+  border: none;
+  background-color: #5D689A;
+  margin-top: 30px;
 }/*# sourceMappingURL=style.css.map */

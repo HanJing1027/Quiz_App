@@ -64,7 +64,6 @@ body {
   }
 }
 
-// 題庫選擇
 .config-option {
 
   .option-title {
@@ -103,7 +102,6 @@ body {
   }
 }
 
-// 題數選擇
 .config-option {
 
   .question-options {
@@ -116,7 +114,7 @@ body {
 }
 
 .quiz-container {
-  display: none;
+  // display: none;
 
   width           : 480px;
   background-color: #FFF;
@@ -242,5 +240,45 @@ body {
       margin-top: 3px;
       font-size : 1.25rem;
     }
+  }
+}
+
+.result-container {
+  display: none;
+
+  background-color: #FFF;
+  border-radius   : 8px;
+  box-shadow      : 0 0 5px 1px #00000016;
+  text-align      : center;
+  padding         : 20px 40px 40px;
+  width           : 410px;
+
+  .result-img {
+    width: 220px;
+  }
+
+  .result-title {
+    color      : #444;
+    font-size  : 1.5rem;
+    font-weight: 600;
+    margin-top : 30px;
+  }
+
+  .result-message {
+    color      : #444;
+    font-size  : 1.125rem;
+    font-weight: 500;
+    margin-top : 20px;
+  }
+
+  .try-again-btn {
+    cursor          : pointer;
+    color           : #FFF;
+    font-size       : 1rem;
+    padding         : 8px 20px;
+    border-radius   : 4px;
+    border          : none;
+    background-color: #5D689A;
+    margin-top      : 30px;
   }
 }
