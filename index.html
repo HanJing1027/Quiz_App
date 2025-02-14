@@ -24,15 +24,15 @@
   </head>
   <body>
     <!-- 測驗配置 -->
-    <section class="config-container hidden">
+    <section class="config-container">
       <h1 class="config-title">測驗配置</h1>
 
       <div class="config-option">
         <h4 class="option-title">題庫選擇</h4>
         <div class="category-options">
-          <button class="category-option active">科學類別</button>
+          <button class="category-option active">國文類別</button>
           <button class="category-option">數學類別</button>
-          <button class="category-option">歷史類別</button>
+          <button class="category-option">公民類別</button>
           <button class="category-option">地理類別</button>
         </div>
       </div>
@@ -54,6 +54,45 @@
 
     <!-- 測驗畫面 -->
     <section class="quiz-container">
+      <div class="quiz-header">
+        <h2 class="quiz-title">測驗練習</h2>
+        <div class="quiz-timer">
+          <i class="bx bx-timer"></i>
+          <span class="time-duration">15s</span>
+        </div>
+      </div>
+
+      <div class="quiz-content">
+        <h1 class="question-text">1.世界上面積最大的國家是哪一個？</h1>
+        <ul class="answer-options">
+          <li class="answer-option incorrect">
+            <p>
+              美國
+              <i class="bx bx-check-circle"></i>
+            </p>
+          </li>
+          <li class="answer-option correct">
+            <p>
+              俄羅斯
+              <i class="bx bx-x-circle"></i>
+            </p>
+          </li>
+          <li class="answer-option"><p>中國</p></li>
+          <li class="answer-option"><p>加拿大</p></li>
+        </ul>
+      </div>
+
+      <div class="quiz-footer">
+        <p class="question-status"><b>2</b> of <b>10</b> Question</p>
+        <button class="next-question-btn">
+          Next <i class="bx bx-right-arrow-alt"></i>
+        </button>
+      </div>
+    </section>
+    <!-- ======== -->
+
+    <!-- 結果畫面 -->
+    <section class="result-container">
       <!--  -->
     </section>
     <!-- ======== -->
