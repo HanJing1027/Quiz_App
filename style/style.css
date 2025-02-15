@@ -164,6 +164,7 @@ body {
 }
 
 .config-container {
+  display: none;
   width: 415px;
   padding: 20px 25px;
   background-color: #FFF;
@@ -236,7 +237,6 @@ body {
 }
 
 .quiz-container {
-  display: none;
   width: 480px;
   background-color: #FFF;
   border-radius: 8px;

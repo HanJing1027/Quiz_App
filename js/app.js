@@ -1,5 +1,8 @@
 import { questions } from "./questions.js";
 
+const startQuizBtn = document.querySelector(".start-quiz-btn");
+const answerOptions = document.querySelector(".answer-options");
+
 // 取得被選取的類別
 const quizCategory = document.querySelector(".category-options .active").dataset
   .category;
@@ -25,8 +28,18 @@ const renderQuestion = () => {
   // 將隨機的題目賦值給 currentQuestion
   const currentQuestion = getRandomQuestions();
 
-  console.log(currentQuestion);
-
   if (!currentQuestion) return;
+
+  // 題目渲染到畫面上
+  document.querySelector(".question-text").textContent =
+    currentQuestion.question;
+
+  currentQuestion.options.forEach((option) => {
+    // 創建選項元素
+    const liHTML = `
+      <li class="answer-option"><p>${option}</p></li>
+    `;
+    answerOptions.insertAdjacentHTML("beforeend", liHTML);
+  });
 };
 renderQuestion();
