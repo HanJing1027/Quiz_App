@@ -288,7 +288,6 @@ body {
 .answer-options .answer-option {
   cursor: pointer;
   font-weight: 500;
-  padding: 13px 16px;
   color: #444;
   background-color: #FFF;
   border: 1px solid #AAA;
@@ -299,6 +298,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 15px 16px;
 }
 .answer-options .answer-option p i {
   font-size: 1.2rem;
