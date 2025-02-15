@@ -1,6 +1,6 @@
 export const questions = [
   {
-    category: "國文",
+    category: "Chinese",
     questions: [
       {
         question: "下列哪個詞語形容「很快樂」的心情？",
@@ -161,7 +161,7 @@ export const questions = [
     ],
   },
   {
-    category: "數學",
+    category: "math",
     questions: [
       {
         question: "25 + 18 = ?",
@@ -316,7 +316,7 @@ export const questions = [
     ],
   },
   {
-    category: "公民",
+    category: "citizen",
     questions: [
       {
         question: "在學校遇到外國老師時，應該說什麼問候語？",
@@ -486,7 +486,7 @@ export const questions = [
     ],
   },
   {
-    category: "地理",
+    category: "geography",
     questions: [
       {
         question: "台灣的首都是哪一個城市？",
