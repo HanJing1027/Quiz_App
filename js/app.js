@@ -1,6 +1,7 @@
 import { questions } from "./questions.js";
 
 const startQucizBtn = document.querySelector(".start-quiz-btn");
+const timeDuration = document.querySelector(".time-duration");
 const nexQuestionBtn = document.querySelector(".next-question-btn");
 const answerOptions = document.querySelector(".answer-options");
 
@@ -10,7 +11,11 @@ const quizCategory = document.querySelector(".category-options .active").dataset
 
 // 計算正確與錯誤的答案
 let asCorrect = 0;
-let asIncorrect = 0;
+let asInCorrect = 0;
+
+// 計時器
+let countdown;
+let timeLeft = 0;
 
 // 取得選取的題庫與隨機題目
 const getRandomQuestions = () => {
@@ -30,6 +35,11 @@ const getRandomQuestions = () => {
 
 // 渲染題目
 const renderQuestion = () => {
+  // 重置計時器
+  clearInterval(countdown);
+  timeLeft = 15;
+  timeDuration.textContent = `${timeLeft}s`;
+
   // 鎖上按鈕
   nexQuestionBtn.style.opacity = ".5";
   nexQuestionBtn.style.pointerEvents = "none";
@@ -59,6 +69,24 @@ const renderQuestion = () => {
     currentQuestion.options[currentQuestion.correctAnswer];
   console.log(`正確答案:${correctAnswerText}`);
 
+  // 啟動計時器
+  countdown = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+      timeDuration.textContent = `${timeLeft}s`;
+    } else if (timeLeft == 0) {
+      asInCorrect++;
+      showCorrectAnswer(
+        document.querySelectorAll(".answer-option"),
+        correctAnswerText
+      );
+      lockOptions(document.querySelectorAll(".answer-option"));
+      nexQuestionBtn.style.opacity = "1";
+      nexQuestionBtn.style.pointerEvents = "auto";
+      clearInterval(countdown);
+    }
+  }, 1000);
+
   checkedAnswer(correctAnswerText);
 };
 
@@ -74,30 +102,51 @@ const checkedAnswer = (correctAnswerText) => {
       // 判斷是否為正確答案
       if (selectedOption == correctAnswerText) {
         asCorrect++;
+        markAsCorrect(elem.target);
       } else {
-        asIncorrect++;
-        elem.target.parentElement.classList.add("incorrect");
-        elem.target.innerHTML += `<i class="bx bx-x-circle"></i>`;
+        asInCorrect++;
+        markAsIncorrect(elem.target);
+        showCorrectAnswer(answerOptions, correctAnswerText);
       }
 
-      answerOptions.forEach((opt) => {
-        // 正確答案加上樣式
-        if (opt.textContent == correctAnswerText) {
-          opt.classList.add("correct");
-          document.querySelector(
-            ".correct p"
-          ).innerHTML += `<i class="bx bx-check-circle"></i>`;
-        }
+      // 避免再次點擊
+      lockOptions(answerOptions);
+      // 解鎖按鈕
+      nexQuestionBtn.style.opacity = "1";
+      nexQuestionBtn.style.pointerEvents = "auto";
 
-        // 避免再次點擊
-        opt.style.pointerEvents = "none";
-        // 解鎖按鈕
-        nexQuestionBtn.style.opacity = "1";
-        nexQuestionBtn.style.pointerEvents = "auto";
-      });
+      clearInterval(countdown);
     });
   });
 };
+
+const markAsCorrect = (elem) => {
+  elem.parentElement.classList.add("correct");
+  elem.innerHTML += `<i class="bx bx-check-circle"></i>`;
+};
+
+const markAsIncorrect = (elem) => {
+  elem.parentElement.classList.add("incorrect");
+  elem.innerHTML += `<i class="bx bx-x-circle"></i>`;
+};
+
+const showCorrectAnswer = (answerOptions, correctAnswerText) => {
+  answerOptions.forEach((option) => {
+    if (option.textContent == correctAnswerText) {
+      option.classList.add("correct");
+      document.querySelector(
+        ".correct p"
+      ).innerHTML += `<i class="bx bx-check-circle"></i>`;
+    }
+  });
+};
+
+const lockOptions = (answerOptions) => {
+  answerOptions.forEach((option) => {
+    option.style.pointerEvents = "none";
+  });
+};
+
 renderQuestion();
 
 nexQuestionBtn.addEventListener("click", renderQuestion);
