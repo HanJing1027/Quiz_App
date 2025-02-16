@@ -1,13 +1,21 @@
 import { questions } from "./questions.js";
 
+const configContainer = document.querySelector(".config-container");
 const startQucizBtn = document.querySelector(".start-quiz-btn");
-const timeDuration = document.querySelector(".time-duration");
-const nexQuestionBtn = document.querySelector(".next-question-btn");
-const answerOptions = document.querySelector(".answer-options");
+const categoryOptions = document.querySelectorAll(".category-option");
+const questionOptions = document.querySelectorAll(".question-option");
 
-// 取得被選取的類別
-const quizCategory = document.querySelector(".category-options .active").dataset
-  .category;
+const quizContainer = document.querySelector(".quiz-container");
+const timeDuration = document.querySelector(".time-duration");
+const answerOptions = document.querySelector(".answer-options");
+const nexQuestionBtn = document.querySelector(".next-question-btn");
+
+const resultContainer = document.querySelector(".result-container");
+const resultMessage = document.querySelector(".result-message");
+const tryAgainBtn = document.querySelector(".try-again-btn");
+
+let questionCount = 0; // 選擇的題目數量
+let questionsCount = 1; // 已答題的數量
 
 // 計算正確與錯誤的答案
 let asCorrect = 0;
@@ -17,8 +25,34 @@ let asInCorrect = 0;
 let countdown;
 let timeLeft = 0;
 
+categoryOptions.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    changeCategory(categoryOptions, btn);
+  });
+});
+
+questionOptions.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    changeCategory(questionOptions, btn);
+
+    questionCount = parseInt(btn.dataset.quantity);
+  });
+});
+
+// 類別選項
+const changeCategory = (options, activeBtn) => {
+  options.forEach((btn) => {
+    btn.classList.remove("active");
+  });
+  activeBtn.classList.add("active");
+};
+
 // 取得選取的題庫與隨機題目
 const getRandomQuestions = () => {
+  // 取得被選取的類別
+  const quizCategory = document.querySelector(".category-options .active")
+    .dataset.category;
+
   // 取得題庫中的題目
   const categoryQuestions =
     questions.find(
@@ -35,6 +69,10 @@ const getRandomQuestions = () => {
 
 // 渲染題目
 const renderQuestion = () => {
+  // 畫面切換
+  configContainer.style.display = "none";
+  quizContainer.style.display = "block";
+
   // 重置計時器
   clearInterval(countdown);
   timeLeft = 15;
@@ -69,6 +107,11 @@ const renderQuestion = () => {
     currentQuestion.options[currentQuestion.correctAnswer];
   console.log(`正確答案:${correctAnswerText}`);
 
+  // 答題進度
+  document.querySelector(
+    ".question-status"
+  ).innerHTML = `<p class="question-status"><b>${questionsCount}</b> of <b>${questionCount}</b> Question</p>`;
+
   // 啟動計時器
   countdown = setInterval(() => {
     if (timeLeft > 0) {
@@ -88,10 +131,17 @@ const renderQuestion = () => {
   }, 1000);
 
   checkedAnswer(correctAnswerText);
+
+  if (questionsCount == questionCount + 1) {
+    clearInterval(countdown);
+  }
 };
 
 // 檢查答案
 const checkedAnswer = (correctAnswerText) => {
+  // 答題數量
+  questionsCount++;
+
   // 取得所有選項
   const answerOptions = document.querySelectorAll(".answer-option");
   answerOptions.forEach((option) => {
@@ -147,6 +197,37 @@ const lockOptions = (answerOptions) => {
   });
 };
 
-renderQuestion();
+const showResult = () => {
+  // 畫面切換
+  resultContainer.style.display = "block";
+  quizContainer.style.display = "none";
 
-nexQuestionBtn.addEventListener("click", renderQuestion);
+  // 渲染結果
+  resultMessage.innerHTML = `
+    <p class="result-message">
+      總題數為 <b>${questionCount}</b> 題、答對了 <b>${asCorrect}</b> 題、答錯了 <b>${asInCorrect}</b> 題，表現不錯！
+    </p>
+  `;
+
+  tryAgainBtn.addEventListener("click", () => {
+    resultContainer.style.display = "none";
+    configContainer.style.display = "block";
+
+    questionsCount = 0; // 重置已答題數量
+    asCorrect = 0;
+    asInCorrect = 0;
+  });
+};
+
+startQucizBtn.addEventListener("click", () => {
+  getRandomQuestions();
+  renderQuestion();
+});
+
+nexQuestionBtn.addEventListener("click", () => {
+  if (questionsCount == questionCount + 1) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+});
