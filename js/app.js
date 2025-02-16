@@ -48,6 +48,21 @@ const changeCategory = (options, activeBtn) => {
   activeBtn.classList.add("active");
 };
 
+// 重置計時器
+const resetTimer = () => {
+  clearInterval(countdown);
+  timeLeft = 15;
+  timeDuration.textContent = `${timeLeft}s`;
+  quizTimer.style.backgroundColor = "#32313A";
+};
+
+// 更新計時器顏色
+const updateTimerColor = () => {
+  if (timeLeft <= 5) {
+    quizTimer.style.backgroundColor = "#D12738";
+  }
+};
+
 // 取得選取的題庫與隨機題目
 const getRandomQuestions = () => {
   // 取得被選取的類別
@@ -60,6 +75,11 @@ const getRandomQuestions = () => {
       (cat) => cat.category.toLowerCase() == quizCategory.toLowerCase()
     ).questions || [];
 
+  if (!categoryQuestions) {
+    console.error("未找到對應的題目類別");
+    return null;
+  }
+
   // 取得題庫中隨機的題目
   const randomQuestion =
     categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
@@ -70,16 +90,11 @@ const getRandomQuestions = () => {
 
 // 渲染題目
 const renderQuestion = () => {
-  quizTimer.style.backgroundColor = "#32313A";
+  resetTimer();
 
   // 畫面切換
   configContainer.style.display = "none";
   quizContainer.style.display = "block";
-
-  // 重置計時器
-  clearInterval(countdown);
-  timeLeft = 15;
-  timeDuration.textContent = `${timeLeft}s`;
 
   // 鎖上按鈕
   nexQuestionBtn.style.opacity = ".5";
@@ -120,6 +135,7 @@ const renderQuestion = () => {
     if (timeLeft > 0) {
       timeLeft--;
       timeDuration.textContent = `${timeLeft}s`;
+      updateTimerColor();
 
       if (timeLeft <= 5) {
         quizTimer.style.backgroundColor = "#D12738";
@@ -171,7 +187,6 @@ const checkedAnswer = (correctAnswerText) => {
       // 解鎖按鈕
       nexQuestionBtn.style.opacity = "1";
       nexQuestionBtn.style.pointerEvents = "auto";
-
       clearInterval(countdown);
     });
   });
