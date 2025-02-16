@@ -6,6 +6,7 @@ const categoryOptions = document.querySelectorAll(".category-option");
 const questionOptions = document.querySelectorAll(".question-option");
 
 const quizContainer = document.querySelector(".quiz-container");
+const quizTimer = document.querySelector(".quiz-timer");
 const timeDuration = document.querySelector(".time-duration");
 const answerOptions = document.querySelector(".answer-options");
 const nexQuestionBtn = document.querySelector(".next-question-btn");
@@ -69,6 +70,8 @@ const getRandomQuestions = () => {
 
 // 渲染題目
 const renderQuestion = () => {
+  quizTimer.style.backgroundColor = "#32313A";
+
   // 畫面切換
   configContainer.style.display = "none";
   quizContainer.style.display = "block";
@@ -117,6 +120,10 @@ const renderQuestion = () => {
     if (timeLeft > 0) {
       timeLeft--;
       timeDuration.textContent = `${timeLeft}s`;
+
+      if (timeLeft <= 5) {
+        quizTimer.style.backgroundColor = "#D12738";
+      }
     } else if (timeLeft == 0) {
       asInCorrect++;
       showCorrectAnswer(
