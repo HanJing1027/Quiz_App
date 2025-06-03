@@ -26,6 +26,10 @@ let asInCorrect = 0;
 let countdown;
 let timeLeft = 0;
 
+// 追蹤已使用的題目
+let usedQuestions = [];
+let currentCategoryQuestions = [];
+
 categoryOptions.forEach((btn) => {
   btn.addEventListener("click", () => {
     changeCategory(categoryOptions, btn);
@@ -52,7 +56,7 @@ const changeCategory = (options, activeBtn) => {
 const resetTimer = () => {
   clearInterval(countdown);
   timeLeft = 15;
-  timeDuration.textContent = `${timeLeft}s`;
+  timeDuration.textContent = `${timeLeft}`;
   quizTimer.style.backgroundColor = "#32313A";
 };
 
@@ -69,23 +73,39 @@ const getRandomQuestions = () => {
   const quizCategory = document.querySelector(".category-options .active")
     .dataset.category;
 
-  // 取得題庫中的題目
-  const categoryQuestions =
-    questions.find(
+  // 如果是新的測驗開始，重置題庫
+  if (questionsCount === 1) {
+    const categoryData = questions.find(
       (cat) => cat.category.toLowerCase() == quizCategory.toLowerCase()
-    ).questions || [];
+    );
 
-  if (!categoryQuestions) {
-    console.error("未找到對應的題目類別");
+    if (!categoryData) {
+      console.error("未找到對應的題目類別");
+      return null;
+    }
+
+    currentCategoryQuestions = [...categoryData.questions]; // 複製題庫
+    usedQuestions = []; // 清空已使用題目
+  }
+
+  // 如果可用題目不足
+  if (currentCategoryQuestions.length === 0) {
+    console.error("題庫中的題目不足");
     return null;
   }
 
-  // 取得題庫中隨機的題目
-  const randomQuestion =
-    categoryQuestions[Math.floor(Math.random() * categoryQuestions.length)];
+  // 隨機選擇一個題目索引
+  const randomIndex = Math.floor(
+    Math.random() * currentCategoryQuestions.length
+  );
 
-  // 回傳隨機的題目
-  return randomQuestion;
+  // 取得題目並從可用題目中移除
+  const selectedQuestion = currentCategoryQuestions.splice(randomIndex, 1)[0];
+
+  // 將題目加入已使用清單
+  usedQuestions.push(selectedQuestion);
+
+  return selectedQuestion;
 };
 
 // 渲染題目
@@ -235,14 +255,21 @@ const showResult = () => {
     resultContainer.style.display = "none";
     configContainer.style.display = "block";
 
-    questionsCount = 0; // 重置已答題數量
+    // 重置所有狀態
+    questionsCount = 1;
     asCorrect = 0;
     asInCorrect = 0;
+    usedQuestions = [];
+    currentCategoryQuestions = [];
   });
 };
 
 startQucizBtn.addEventListener("click", () => {
-  getRandomQuestions();
+  // 重置狀態
+  questionsCount = 1;
+  usedQuestions = [];
+  currentCategoryQuestions = [];
+
   renderQuestion();
 });
 
